@@ -37,6 +37,12 @@ values."
      ;; ----------------------------------------------------------------
      ;; deft
      ;; osx
+     ;; (require 'atomic-chrome)
+     ;; (atomic-chrome-start-server)
+     themes-megapack
+     (paintvars :variables ;; can change "paintvars" to "colors" after merge
+                paintvars-colorize-identifiers 'all
+                paintvars-enable-nyan-cat-progress-bar t)
      html
      yaml
      javascript
@@ -45,6 +51,7 @@ values."
      (ruby :variables ruby-test-runner 'rspec)
      elixir
      haskell
+     python
      dash
      rcirc
      helm
@@ -140,9 +147,9 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         molokai
-                         monokai)
+   dotspacemacs-themes '(material
+                         spacemacs-dark
+                         majapahit)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -462,25 +469,29 @@ values."
     )
 
   ;; misc
+  (paintvars/add-theme-sat&light 'material '(70 75))
+  (paintvars/add-theme-sat&light 'spacemacs-dark '(45 75))
+  (paintvars/refresh-theme-look)
+  (setq-default evil-escape-key-sequence "jk")
   (setq-default js2-basic-offset 2)
   (golden-ratio-mode)
   (indent-guide-global-mode t)
 
   ;; Replace swoop with ag
-  (require 'helm-ag)
-  (defun followize (helm-command)
-    (lexical-let ((hc helm-command))
-      (lambda ()
-        (interactive)
-        (let ((prev-follow-val (helm-attr 'follow helm-source-do-ag)))
-          (helm-attrset 'follow 1 helm-source-do-ag)
-          (call-interactively hc)
-          (helm-attrset 'follow prev-follow-val helm-source-do-ag)))))
+  ;; (require 'helm-ag)
+  ;; (defun followize (helm-command)
+  ;;   (lexical-let ((hc helm-command))
+  ;;     (lambda ()
+  ;;       (interactive)
+  ;;       (let ((prev-follow-val (helm-attr 'follow helm-source-do-ag)))
+  ;;         (helm-attrset 'follow 1 helm-source-do-ag)
+  ;;         (call-interactively hc)
+  ;;         (helm-attrset 'follow prev-follow-val helm-source-do-ag)))))
 
-  (spacemacs/set-leader-keys "sb" (followize 'helm-do-ag-buffers))
-  (spacemacs/set-leader-keys "sB" (followize 'spacemacs/helm-buffers-do-ag-region-or-symbol))
-  (spacemacs/set-leader-keys "ss" (followize 'helm-do-ag-this-file))
-  (spacemacs/set-leader-keys "sS" (followize 'spacemacs/helm-file-smart-do-search-region-or-symbol))
+  ;; (spacemacs/set-leader-keys "sb" (followize 'helm-do-ag-buffers))
+  ;; (spacemacs/set-leader-keys "sB" (followize 'spacemacs/helm-buffers-do-ag-region-or-symbol))
+  ;; (spacemacs/set-leader-keys "ss" (followize 'helm-do-ag-this-file))
+  ;; (spacemacs/set-leader-keys "sS" (followize 'spacemacs/helm-file-smart-do-search-region-or-symbol))
 
   ;; Rebind surround to S instead of s, so we can use s for avy
   (evil-define-key 'operator evil-surround-mode-map "S" 'evil-surround-edit)
@@ -521,7 +532,7 @@ values."
  '(org-agenda-files (quote ("~/org/" "~/org/ghost_group")))
  '(package-selected-packages
    (quote
-    (reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl auctex-latexmk company-auctex auctex magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito ht mmm-mode markdown-toc markdown-mode gh-md deft origami helm-dash dash-at-point pcache web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data yaml-mode rcirc-notify rcirc-color intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode ob-elixir flycheck-mix alchemist elixir-mode flyspell-correct-helm flyspell-correct auto-dictionary molokai-theme monokai-theme git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl smeargle orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-tern dash-functional tern company-statistics company auto-yasnippet ac-ispell auto-complete web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+    (atomic-chrome rainbow-mode rainbow-identifiers color-identifiers-mode zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monochrome-theme moe-theme minimal-theme majapahit-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme material-theme yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl auctex-latexmk company-auctex auctex magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito ht mmm-mode markdown-toc markdown-mode gh-md deft origami helm-dash dash-at-point pcache web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data yaml-mode rcirc-notify rcirc-color intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode ob-elixir flycheck-mix alchemist elixir-mode flyspell-correct-helm flyspell-correct auto-dictionary molokai-theme monokai-theme git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl smeargle orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-tern dash-functional tern company-statistics company auto-yasnippet ac-ispell auto-complete web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc coffee-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(vc-annotate-background nil)
