@@ -466,10 +466,12 @@ values."
                    nil))))
     )
 
-  ;; misc
+  ;; color settings
   (paintvars/add-theme-sat&light 'material '(70 70))
   (paintvars/add-theme-sat&light 'spacemacs-dark '(45 70))
   (paintvars/refresh-theme-look)
+
+  ;; misc
   (setq-default evil-escape-key-sequence "jk")
   (setq-default js2-basic-offset 2)
   (golden-ratio-mode)
