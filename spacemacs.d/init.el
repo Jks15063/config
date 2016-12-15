@@ -37,8 +37,6 @@ values."
      ;; ----------------------------------------------------------------
      ;; deft
      ;; osx
-     ;; (require 'atomic-chrome)
-     ;; (atomic-chrome-start-server)
      themes-megapack
      (paintvars :variables ;; can change "paintvars" to "colors" after merge
                 paintvars-colorize-identifiers 'all
@@ -469,8 +467,8 @@ values."
     )
 
   ;; misc
-  (paintvars/add-theme-sat&light 'material '(70 75))
-  (paintvars/add-theme-sat&light 'spacemacs-dark '(45 75))
+  (paintvars/add-theme-sat&light 'material '(70 70))
+  (paintvars/add-theme-sat&light 'spacemacs-dark '(45 70))
   (paintvars/refresh-theme-look)
   (setq-default evil-escape-key-sequence "jk")
   (setq-default js2-basic-offset 2)
