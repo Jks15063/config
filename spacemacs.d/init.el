@@ -153,7 +153,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("DejaVu Sans Mono for Powerline"
-                               :size 18
+                               :size 24
                                :weight normal
                                :width normal
                                :powerline-scale 1.0)
@@ -307,11 +307,6 @@ values."
   (setq-default git-magit-status-fullscreen t))
 
 (defun dotspacemacs/user-config ()
-  ;; tabs
-  ;; (setq-default js2-basic-offset 2)
-  ;; (setq-default js-indent-level 2)
-  ;; (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines t)))
-
   ;; org-mode setup
   (with-eval-after-load 'org
     (setq org-enforce-todo-dependencies t)
@@ -472,14 +467,13 @@ values."
   (paintvars/refresh-theme-look)
 
   ;; misc
-  ;; (electric-pair-mode 1)
   (setq-default evil-escape-key-sequence "jk")
   (setq evil-escape-unordered-key-sequence t)
   (setq-default js2-basic-offset 2)
   (golden-ratio-mode)
   (indent-guide-global-mode t)
 
-  ;; Replace swoop with ag
+  ;; Replace swoop with ag, courtesy of @quicknir
   ;; (require 'helm-ag)
   ;; (defun followize (helm-command)
   ;;   (lexical-let ((hc helm-command))
@@ -506,6 +500,44 @@ values."
   (evil-define-key '(normal motion visual operator) global-map (kbd "C-;") 'avy-goto-line)
 
   (setq avy-all-windows nil)
+
+  ;; multiple cursor stuff, courtesy of @quicknir
+  (global-evil-mc-mode 1)
+
+  (defun evil--mc-make-cursor-at-col-append (_startcol endcol orig-line)
+    (end-of-line)
+    (when (> endcol (current-column))
+      (insert-char ?\s (- endcol (current-column))))
+    (move-to-column (- endcol 1))
+    (unless (= (line-number-at-pos) orig-line)
+      (message (number-to-string (current-column)))
+      (evil-mc-make-cursor-here)))
+
+  (defun evil--mc-make-cursor-at-col-insert (startcol _endcol orig-line)
+    (end-of-line)
+    (unless (or (= (line-number-at-pos) orig-line) (> startcol (current-column)))
+      (move-to-column startcol)
+      (evil-mc-make-cursor-here)))
+
+  (defun evil--mc-make-vertical-cursors (beg end func)
+    (evil-mc-pause-cursors)
+    (apply-on-rectangle func
+                        beg end (line-number-at-pos (point)))
+    (evil-mc-resume-cursors)
+    (evil-normal-state)
+    (move-to-column (evil-mc-column-number (min beg end)))
+    )
+
+  (defun evil-mc-insert-vertical-cursors (beg end)
+    (interactive (list (region-beginning) (region-end)))
+    (evil--mc-make-vertical-cursors beg end 'evil--mc-make-cursor-at-col-insert))
+
+  (defun evil-mc-append-vertical-cursors (beg end)
+    (interactive (list (region-beginning) (region-end)))
+    (evil--mc-make-vertical-cursors beg end 'evil--mc-make-cursor-at-col-append))
+
+  (evil-define-key 'visual global-map "gI" 'evil-mc-insert-vertical-cursors)
+  (evil-define-key 'visual global-map "gA" 'evil-mc-append-vertical-cursors)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
