@@ -37,14 +37,16 @@ values."
      ;; ----------------------------------------------------------------
      ;; deft
      ;; osx
+     finance
      themes-megapack
      (paintvars :variables ;; can change "paintvars" to "colors" after merge
-                paintvars-colorize-identifiers 'all)
-                ;; paintvars-enable-nyan-cat-progress-bar t)
+                paintvars-colorize-identifiers 'all
+                paintvars-enable-nyan-cat-progress-bar t)
      html
      yaml
      javascript
      ruby
+     ;; (ruby :variables ruby-version-manager 'chruby)
      (ruby :variables ruby-version-manager 'rvm)
      (ruby :variables ruby-test-runner 'rspec)
      elixir
@@ -63,7 +65,6 @@ values."
      syntax-checking
      version-control
      auto-completion
-     ;; better-defaults
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
