@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     lua
      ;; ----------------------------------------------------------------
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
@@ -495,8 +496,8 @@ values."
   (evil-define-key 'visual evil-surround-mode-map "S" 'evil-surround-region)
 
   ;; avy setup
-  (evil-define-key '(normal motion) global-map "s" 'avy-goto-char-2)
-  (evil-define-key '(visual operator) evil-surround-mode-map "s" 'avy-goto-char-2)
+  (evil-define-key '(normal motion) global-map "s" 'avy-goto-char-timer)
+  (evil-define-key '(visual operator) evil-surround-mode-map "s" 'avy-goto-char-timer)
 
   (evil-define-key '(normal motion visual operator) global-map (kbd "C-;") 'avy-goto-line)
 
