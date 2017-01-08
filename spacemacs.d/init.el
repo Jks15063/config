@@ -474,6 +474,10 @@ values."
   (setq-default js2-basic-offset 2)
   (golden-ratio-mode)
   (indent-guide-global-mode t)
+  (setq-default
+   js-basic-offset 2
+   js2-basic-offset 2
+   js-indent-level 2)
 
   ;; Replace swoop with ag, courtesy of @quicknir
   ;; (require 'helm-ag)
