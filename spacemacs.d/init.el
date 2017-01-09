@@ -323,7 +323,6 @@ values."
   ;; misc
   (setq-default evil-escape-key-sequence "jk")
   (setq evil-escape-unordered-key-sequence t)
-  (setq-default js2-basic-offset 2)
   (golden-ratio-mode)
   (indent-guide-global-mode t)
   (setq-default
@@ -337,22 +336,6 @@ values."
   (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
   ;; For Javascript
   (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-
-  ;; Replace swoop with ag, courtesy of @quicknir
-  ;; (require 'helm-ag)
-  ;; (defun followize (helm-command)
-  ;;   (lexical-let ((hc helm-command))
-  ;;     (lambda ()
-  ;;       (interactive)
-  ;;       (let ((prev-follow-val (helm-attr 'follow helm-source-do-ag)))
-  ;;         (helm-attrset 'follow 1 helm-source-do-ag)
-  ;;         (call-interactively hc)
-  ;;         (helm-attrset 'follow prev-follow-val helm-source-do-ag)))))
-
-  ;; (spacemacs/set-leader-keys "sb" (followize 'helm-do-ag-buffers))
-  ;; (spacemacs/set-leader-keys "sB" (followize 'spacemacs/helm-buffers-do-ag-region-or-symbol))
-  ;; (spacemacs/set-leader-keys "ss" (followize 'helm-do-ag-this-file))
-  ;; (spacemacs/set-leader-keys "sS" (followize 'spacemacs/helm-file-smart-do-search-region-or-symbol))
 
   ;; Rebind surround to S instead of s, so we can use s for avy
   (evil-define-key 'operator evil-surround-mode-map "S" 'evil-surround-edit)
