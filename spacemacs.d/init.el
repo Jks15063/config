@@ -37,6 +37,7 @@ values."
      ;; ----------------------------------------------------------------
      ;; deft
      ;; osx
+     ranger
      gtd
      lua
      finance
@@ -329,7 +330,8 @@ values."
    js-basic-offset 2
    js2-basic-offset 2
    js-indent-level 2)
-
+  (with-eval-after-load 'golden-ratio
+    (add-to-list 'golden-ratio-exclude-modes "ediff-mode"))
 
   ;; Include underscores in word motions
   ;; For ruby
