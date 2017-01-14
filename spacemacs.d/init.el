@@ -35,8 +35,6 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; deft
-     ;; osx
      ranger
      gtd
      lua
@@ -56,7 +54,6 @@ values."
      haskell
      python
      dash
-     rcirc
      helm
      emacs-lisp
      git
@@ -68,10 +65,6 @@ values."
      syntax-checking
      version-control
      auto-completion
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; (rcirc :variables rcirc-enable-authinfo-support t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
