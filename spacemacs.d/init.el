@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     clojure
      ;; ----------------------------------------------------------------
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
@@ -315,6 +316,7 @@ values."
   (paintvars/refresh-theme-look)
 
   ;; misc
+  (setq org-ditaa-jar-path "/usr/local/bin/ditaa")
   (setq-default evil-escape-key-sequence "jk")
   (setq evil-escape-unordered-key-sequence t)
   (golden-ratio-mode)
@@ -325,6 +327,9 @@ values."
    js-indent-level 2)
   (with-eval-after-load 'golden-ratio
     (add-to-list 'golden-ratio-exclude-modes "ediff-mode"))
+
+  ;; clojure setup
+  (setq clojure-enable-fancify-symbols t)
 
   ;; Include underscores in word motions
   ;; For ruby
@@ -442,3 +447,9 @@ values."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+  )
