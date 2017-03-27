@@ -31,11 +31,13 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     clojure
      ;; ----------------------------------------------------------------
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     ;; emoji
+     typescript
+     clojure
      ranger
      gtd
      lua
@@ -302,13 +304,13 @@ values."
    ))
 
 (defun dotspacemacs/user-init ()
-  (setq-default git-magit-status-fullscreen t))
+  (setq-default git-magit-status-fullscreen t)
+  )
 
 (defun dotspacemacs/user-config ()
   ;; org-mode setup
   (with-eval-after-load 'org
-    (setq-default dotspacemacs-configuration-layers '(gtd))
-    )
+    (setq-default dotspacemacs-configuration-layers '(gtd)))
 
   ;; color settings
   (paintvars/add-theme-sat&light 'material '(70 70))
@@ -316,26 +318,31 @@ values."
   (paintvars/refresh-theme-look)
 
   ;; misc
-  (setq org-ditaa-jar-path "/usr/local/bin/ditaa")
+  ;; (setq org-ditaa-jar-path "/usr/local/bin/ditaa") not working
   (setq-default evil-escape-key-sequence "jk")
   (setq evil-escape-unordered-key-sequence t)
   (golden-ratio-mode)
   (indent-guide-global-mode t)
+  (with-eval-after-load 'golden-ratio
+    (add-to-list 'golden-ratio-exclude-modes "ediff-mode"))
+
+  ;; javascript/typescript
   (setq-default
    js-basic-offset 2
    js2-basic-offset 2
-   js-indent-level 2)
-  (with-eval-after-load 'golden-ratio
-    (add-to-list 'golden-ratio-exclude-modes "ediff-mode"))
+   js-indent-level 2
+   js2-indent-level 2)
+  (setq typescript-indent-level 2)
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
 
   ;; clojure setup
   (setq clojure-enable-fancify-symbols t)
 
   ;; Include underscores in word motions
   ;; For ruby
-  (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
   ;; For Javascript
-  (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 
   ;; Rebind surround to S instead of s, so we can use s for avy
   (evil-define-key 'operator evil-surround-mode-map "S" 'evil-surround-edit)
