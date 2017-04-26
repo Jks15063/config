@@ -64,7 +64,6 @@ values."
      markdown
      latex
      org
-     spell-checking
      syntax-checking
      version-control
      auto-completion
@@ -146,13 +145,13 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(material
-                         spacemacs-dark
-                         majapahit)
+                         material-light
+                         dracula)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("DejaVu Sans Mono for Powerline"
+   dotspacemacs-default-font '("Iosevka"
                                :size 24
                                :weight normal
                                :width normal
@@ -329,8 +328,8 @@ values."
   ;; javascript/typescript
   (setq-default
    js-basic-offset 2
-   js2-basic-offset 2
    js-indent-level 2
+   js2-basic-offset 2
    js2-indent-level 2)
   (setq typescript-indent-level 2)
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
@@ -340,9 +339,11 @@ values."
 
   ;; Include underscores in word motions
   ;; For ruby
-  ;; (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
   ;; For Javascript
-  ;; (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; For Elixir
+  (add-hook 'elixir-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 
   ;; Rebind surround to S instead of s, so we can use s for avy
   (evil-define-key 'operator evil-surround-mode-map "S" 'evil-surround-edit)
@@ -351,9 +352,7 @@ values."
   ;; avy setup
   (evil-define-key '(normal motion) global-map "s" 'avy-goto-char-timer)
   (evil-define-key '(visual operator) evil-surround-mode-map "s" 'avy-goto-char-timer)
-
   (evil-define-key '(normal motion visual operator) global-map (kbd "C-;") 'avy-goto-line)
-
   (setq avy-all-windows nil)
 
   ;; multiple cursor stuff, courtesy of @quicknir
@@ -454,9 +453,3 @@ values."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-  )
