@@ -31,11 +31,9 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ;; ----------------------------------------------------------------
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     ;; emoji
+     nginx
+     csv
+     shell
      typescript
      clojure
      ranger
@@ -50,6 +48,7 @@ values."
      yaml
      javascript
      ruby
+     ruby-on-rails
      ;; (ruby :variables ruby-version-manager 'chruby)
      (ruby :variables ruby-version-manager 'rvm)
      (ruby :variables ruby-test-runner 'rspec)
@@ -60,7 +59,7 @@ values."
      helm
      emacs-lisp
      git
-     github
+     ;; github
      markdown
      latex
      org
@@ -145,8 +144,7 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(material
-                         material-light
-                         dracula)
+                         material-light)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -320,10 +318,18 @@ values."
   ;; (setq org-ditaa-jar-path "/usr/local/bin/ditaa") not working
   (setq-default evil-escape-key-sequence "jk")
   (setq evil-escape-unordered-key-sequence t)
-  (golden-ratio-mode)
+  ;; (golden-ratio-mode)
   (indent-guide-global-mode t)
-  (with-eval-after-load 'golden-ratio
-    (add-to-list 'golden-ratio-exclude-modes "ediff-mode"))
+
+  ;; ediff
+  (defun ediff-copy-both-to-C ()
+    (interactive)
+    (ediff-copy-diff ediff-current-difference nil 'C nil
+                     (concat
+                      (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                      (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+  (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "B" 'ediff-copy-both-to-C))
+  (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 
   ;; javascript/typescript
   (setq-default
@@ -339,11 +345,11 @@ values."
 
   ;; Include underscores in word motions
   ;; For ruby
-  (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
   ;; For Javascript
-  (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
   ;; For Elixir
-  (add-hook 'elixir-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; (add-hook 'elixir-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 
   ;; Rebind surround to S instead of s, so we can use s for avy
   (evil-define-key 'operator evil-surround-mode-map "S" 'evil-surround-edit)
